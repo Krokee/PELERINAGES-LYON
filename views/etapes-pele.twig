@@ -1,0 +1,13 @@
+{% set field = attribute(post, 'groupe-ville-osm') %}
+
+{% set markers = [] %}
+{% for clone in field %}
+  {% set marker = {
+    lat: clone.carte_etape.latitude,
+    lng: clone.carte_etape.longitude,
+    name: clone.ville_etape
+  } %}
+  {% set markers = markers|merge([marker]) %}
+{% endfor %}
+
+{{ mb.create_map(markers) }}
