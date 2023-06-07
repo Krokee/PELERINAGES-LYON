@@ -50,9 +50,10 @@ function display_map($etapes) {
   <script>
 
     // Créer un marqueur personnalisé pour chaque type de point
-    var departIcon = L.divIcon({
+    var startIcon = L.divIcon({
 	  className: 'custom-icon',
-	  html: '<i class="fa-solid fa-plane-departure" style="font-size: 26px;"></i>',
+	  //html: '<i class="fa-solid fa-plane-departure" style="font-size: 26px;"></i>',
+	  html: '<i class="fa-solid fa-person-walking-luggage" style="font-size: 26px;"></i>',
 	  iconSize: [26, 26],
 	  iconAnchor: [26, 26] // [0, 0] = top-left | [26, 0] = top-right | [0, 26] = bottom-left | [26, 26] = bottom-right
 	});
@@ -61,12 +62,13 @@ function display_map($etapes) {
 	  className: 'custom-icon',
 	  html: '<i class="fa-solid fa-location-dot" style="font-size: 20px;"></i>',
 	  iconSize: [20, 20],
-	  iconAnchor: [10, 10] // middle-center for step icon
+	  iconAnchor: [10, 20] // middle-center for step icon
 	});
 
-	var arriveeIcon = L.divIcon({
+	var endIcon = L.divIcon({
 	  className: 'custom-icon',
-	  html: '<i class="fa-solid fa-plane-arrival" style="font-size: 26px;"></i>',
+	  //html: '<i class="fa-solid fa-plane-arrival" style="font-size: 26px;"></i>',
+	  html: '<i class="fa-solid fa-flag-checkered" style="font-size: 26px;"></i>',
 	  iconSize: [26, 26],
 	  iconAnchor: [0, 26]
 	});
@@ -96,9 +98,9 @@ function display_map($etapes) {
 	etapes.forEach(function(point, index) {
 	  var marker;
 	  if (index === 0) {
-		marker = L.marker([point.lat, point.lng], { icon: departIcon });
+		marker = L.marker([point.lat, point.lng], { icon: endIcon });
 	  } else if (index === etapes.length - 1) {
-		marker = L.marker([point.lat, point.lng], { icon: arriveeIcon });
+		marker = L.marker([point.lat, point.lng], { icon: startIcon });
 	  } else {
 		marker = L.marker([point.lat, point.lng], { icon: pointEtapeIcon });
 	  }
