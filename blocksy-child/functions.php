@@ -29,7 +29,7 @@ add_action('wp_enqueue_scripts', 'register_leaflet_styles');
 
 function register_leaflet_scripts() {
 	wp_register_script('leaflet', 'https://pelerinageslyon.fr/wp-content/plugins/wp-grid-builder-map-facet/assets/js/vendors/leaflet.js', array(), '1.9.3', false);
-  wp_register_script('leaflet-polyline-decorator', 'https://cdn.jsdelivr.net/npm/leaflet.polyline.decorator@1.6.0/dist/leaflet.polyline.decorator.min.js');
+  wp_register_script('leaflet-polyline-decorator', 'https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js');
 	wp_enqueue_script('leaflet');
   wp_enqueue_script('leaflet-polyline-decorator');
 }
