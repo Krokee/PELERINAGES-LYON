@@ -29,7 +29,9 @@ add_action('wp_enqueue_scripts', 'register_leaflet_styles');
 
 function register_leaflet_scripts() {
 	wp_register_script('leaflet', 'https://pelerinageslyon.fr/wp-content/plugins/wp-grid-builder-map-facet/assets/js/vendors/leaflet.js', array(), '1.9.3', false);
+  wp_register_script('leaflet-polyline-decorator', 'https://cdn.jsdelivr.net/npm/leaflet.polyline.decorator@1.6.0/dist/leaflet.polyline.decorator.min.js');
 	wp_enqueue_script('leaflet');
+  wp_enqueue_script('leaflet-polyline-decorator');
 }
 add_action('wp_enqueue_scripts', 'register_leaflet_scripts');
 
@@ -128,8 +130,17 @@ function display_map($etapes) {
     var itineraryLatLngs = [startPointWithOffset].concat(latLngs.slice(1));
 
     
-    // Créer la polyligne pour l'itinéraire
+    // Créer la polyligne pour l'itinéraire -> ligne seule
     var itinerary = L.polyline(itineraryLatLngs, { color: '#8ed1fc', weight: 5 }).addTo(map);
+
+    // Ajouter les flèches à la polyligne de l'itinéraire
+    var arrowOffset = 15; // Décalage des flèches par rapport à la ligne
+    var arrowHead = L.polylineDecorator(itinerary, {
+      patterns: [
+        { offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 10, polygon: false, pathOptions: { stroke: true, color: '#8ed1fc', weight: 2 } }) }
+      ]
+    }).addTo(map);
+
   </script>
   <?php
 }
