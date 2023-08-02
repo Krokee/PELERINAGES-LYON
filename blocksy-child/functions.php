@@ -141,3 +141,18 @@ function create_map($etapes) {
   $output = ob_get_clean();
   return $output;
 }
+
+// fonction utilisée pour appeler les options de conditions d'annulation définies dans la page de paramétrage
+function cond_generales_option() {
+	$groups = rwmb_meta( 'group_type-voyage_conditions', [ 'object_type' => 'setting' ], 'parametrage-pelerinages' );	
+	$array = array();
+
+// Pour ajouter des valeurs :
+	foreach ( $groups as $group ) {
+		$type_voyage = $group[ 'type_de_voyage' ] ?? '';
+		$conditions = $group[ 'conditions_dannulation' ] ?? '';
+		console_log('type de voyage', $type_voyage);
+		$array[$conditions] = $type_voyage;
+		}
+	return $array;
+}
