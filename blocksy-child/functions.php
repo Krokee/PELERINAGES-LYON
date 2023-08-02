@@ -29,7 +29,9 @@ add_action('wp_enqueue_scripts', 'register_leaflet_styles');
 
 function register_leaflet_scripts() {
 	wp_register_script('leaflet', 'https://pelerinageslyon.fr/wp-content/plugins/wp-grid-builder-map-facet/assets/js/vendors/leaflet.js', array(), '1.9.3', false);
+  wp_register_script('leaflet-polyline-decorator', 'https://unpkg.com/leaflet-polylinedecorator@1.6.0/dist/leaflet.polylineDecorator.js');
 	wp_enqueue_script('leaflet');
+  wp_enqueue_script('leaflet-polyline-decorator');
 }
 add_action('wp_enqueue_scripts', 'register_leaflet_scripts');
 
@@ -48,9 +50,10 @@ function display_map($etapes) {
   <script>
 
     // Créer un marqueur personnalisé pour chaque type de point
-    var departIcon = L.divIcon({
+    var startIcon = L.divIcon({
 	  className: 'custom-icon',
-	  html: '<i class="fa-solid fa-plane-departure" style="font-size: 26px;"></i>',
+	  //html: '<i class="fa-solid fa-plane-departure" style="font-size: 26px;"></i>',
+	  html: '<i class="fa-solid fa-person-walking-luggage" style="font-size: 26px;"></i>',
 	  iconSize: [26, 26],
 	  iconAnchor: [26, 26] // [0, 0] = top-left | [26, 0] = top-right | [0, 26] = bottom-left | [26, 26] = bottom-right
 	});
@@ -59,12 +62,13 @@ function display_map($etapes) {
 	  className: 'custom-icon',
 	  html: '<i class="fa-solid fa-location-dot" style="font-size: 20px;"></i>',
 	  iconSize: [20, 20],
-	  iconAnchor: [10, 10] // middle-center for step icon
+	  iconAnchor: [10, 20] // middle-center for step icon
 	});
 
-	var arriveeIcon = L.divIcon({
+	var endIcon = L.divIcon({
 	  className: 'custom-icon',
-	  html: '<i class="fa-solid fa-plane-arrival" style="font-size: 26px;"></i>',
+	  //html: '<i class="fa-solid fa-plane-arrival" style="font-size: 26px;"></i>',
+	  html: '<i class="fa-solid fa-flag-checkered" style="font-size: 26px;"></i>',
 	  iconSize: [26, 26],
 	  iconAnchor: [0, 26]
 	});
@@ -94,9 +98,9 @@ function display_map($etapes) {
 	etapes.forEach(function(point, index) {
 	  var marker;
 	  if (index === 0) {
-		marker = L.marker([point.lat, point.lng], { icon: departIcon });
+		marker = L.marker([point.lat, point.lng], { icon: endIcon });
 	  } else if (index === etapes.length - 1) {
-		marker = L.marker([point.lat, point.lng], { icon: arriveeIcon });
+		marker = L.marker([point.lat, point.lng], { icon: startIcon });
 	  } else {
 		marker = L.marker([point.lat, point.lng], { icon: pointEtapeIcon });
 	  }
@@ -128,8 +132,17 @@ function display_map($etapes) {
     var itineraryLatLngs = [startPointWithOffset].concat(latLngs.slice(1));
 
     
-    // Créer la polyligne pour l'itinéraire
+    // Créer la polyligne pour l'itinéraire -> ligne seule
     var itinerary = L.polyline(itineraryLatLngs, { color: '#8ed1fc', weight: 5 }).addTo(map);
+
+    // Ajouter les flèches à la polyligne de l'itinéraire
+    var arrowOffset = 15; // Décalage des flèches par rapport à la ligne
+    var arrowHead = L.polylineDecorator(itinerary, {
+      patterns: [
+        { offset: '50%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 10, polygon: false, pathOptions: { stroke: true, color: '#8ed1fc', weight: 2 } }) }
+      ]
+    }).addTo(map);
+
   </script>
   <?php
 }
@@ -144,14 +157,13 @@ function create_map($etapes) {
 
 // fonction utilisée pour appeler les options de conditions d'annulation définies dans la page de paramétrage
 function cond_generales_option() {
-	$groups = rwmb_meta( 'group_type-voyage_conditions', [ 'object_type' => 'setting' ], 'parametrage-pelerinages' );	
+	$groups = rwmb_meta( 'group_type-voyage_conditions', [ 'object_type' => 'setting' ], 'parametrage-pelerinages' );
 	$array = array();
 
 // Pour ajouter des valeurs :
 	foreach ( $groups as $group ) {
 		$type_voyage = $group[ 'type_de_voyage' ] ?? '';
 		$conditions = $group[ 'conditions_dannulation' ] ?? '';
-		console_log('type de voyage', $type_voyage);
 		$array[$conditions] = $type_voyage;
 		}
 	return $array;

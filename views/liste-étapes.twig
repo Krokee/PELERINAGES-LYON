@@ -1,0 +1,14 @@
+<ul>
+    {% set field = attribute( post, 'groupe-ville-osm' ) %}
+    {% for clone in field %}
+        {% set ville_complet = clone.ville_etape | split(',') %}
+        {% set ville = ville_complet[0] %}
+        {% set length = ville_complet | length %}
+        {% set pays = ville_complet[length-1] | trim %}
+        <li>{{ ville }} ({{ pays }})
+            {% if clone.nuit_etape is defined and clone.nuit_etape > 0 %}
+                - {{ clone.nuit_etape }} nuit{% if clone.nuit_etape is defined and clone.nuit_etape > 1 %}s{% endif %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
