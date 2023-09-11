@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI/CD for geojson deployment to CLIENT PORTAL
+name: CI/CD for microsite deployment to CLIENT PORTAL
 
 # Controls when the workflow will run
 on:
@@ -31,7 +31,7 @@ jobs:
 
     - name: FTP Deploy to hosting
       if:  env.MICROSITE_FTP_USERNAME != null && env.MICROSITE_FTP_PWD != null
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      uses: SamKirkland/FTP-Deploy-Action@4.3.4
       with:
         # ftp server
         server: ${{ secrets.MICROSITE_FTP_SERVER }}
