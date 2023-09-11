@@ -18,19 +18,21 @@
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		body {
-			padding: 50px;
+			padding-top: 50px;
 			position: relative;
 			overflow: hidden;
+
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
 		}
+
 
 		.btn {
 			margin-top: 20px;
 		}
 
-		body {
-			position: relative;
-			overflow: hidden;
-		}
+
 
 		#bg-svg {
 			position: absolute;
@@ -46,27 +48,42 @@
 			left: 0;
 			width: 100%;
 			z-index: -1;
+		}
+
+		.container {
+			/* Cette propriété pousse le pied de page vers le bas */
+			flex: 1 0 auto;
+		}
+
+		.footer {
+			/* Ceci garantit que le footer reste en bas */
+			flex-shrink: 0;
+		}
+
+		.btn+.btn {
+			margin-top: 20px;
 		}
 	</style>
 </head>
 
-<body>
-
-
-	<div class="container">
+<body class="d-flex flex-column">
+	<div class="container flex-grow-1">
 		<h1>Pélerinages Lyon</h1>
 		<p>
 			Bienvenue sur la page de suivi du site "Pélerinages Lyon". Cette page a pour objectif de vous permettre de
 			nous contacter facilement et de nous signaler des anomalies sur le site.
 		</p>
-		<a href="https://airtable.com/appmQPa52ntBsLG39/shrk2w9WgEdxAThOR" target="_blank" rel="noopener noreferrer"
-			class="btn btn-lg btn-primary">Signaler une anomalie</a>
-		<a href="mailto:bonjour@sandrinerodrigues.fr,romain@kromatic.fr,charly@keeply.fr?subject=Pélerinages Lyon"
-			class="btn btn-lg btn-success">Envoyer un mail à l'équipe</a>
-		<a href="https://khbg62317.swdrive.fr/index.php/s/HTC3C9bmgQH6cFo" target="_blank" rel="noopener noreferrer"
-			class="btn btn-lg btn-warning">Déposer des
-			documents de manière sécurisée</a>
 
+		<!-- Conteneur des boutons -->
+		<div class="d-flex flex-column align-items-center">
+			<a href="https://airtable.com/appmQPa52ntBsLG39/shrk2w9WgEdxAThOR" target="_blank" rel="noopener noreferrer"
+				class="btn btn-lg btn-primary mb-2">Signaler une anomalie</a>
+			<a href="mailto:bonjour@sandrinerodrigues.fr,romain@kromatic.fr,charly@keeply.fr?subject=Pélerinages Lyon"
+				class="btn btn-lg btn-success mb-2">Envoyer un mail à l'équipe</a>
+			<a href="https://khbg62317.swdrive.fr/index.php/s/HTC3C9bmgQH6cFo" target="_blank" rel="noopener noreferrer"
+				class="btn btn-lg btn-warning mb-2">Déposer des
+				documents de manière sécurisée</a>
+		</div>
 
 		<div class="news-section my-4">
 			<h2>Nouvelles du projet</h2>
@@ -80,6 +97,16 @@
 		</div>
 
 	</div>
+
+
+
+
+	<footer class="footer mt-auto py-3 bg-light">
+		<div class="container">
+			<p>© 2023 - <a href="https://kromatic.fr" target="_blank" rel="noopener noreferrer">kromatic.fr</a> - <a
+					href="https://portfolio.krokee.fr" target="_blank" rel="noopener noreferrer">Portfolio</a></p>
+		</div>
+	</footer>
 
 	<!-- JS de Bootstrap (Optionnel) -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
