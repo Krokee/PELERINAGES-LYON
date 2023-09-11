@@ -19,4 +19,4 @@ jobs:
         server: ${{ secrets.MICROSITE_FTP_SERVER }}
         username: ${{ secrets.MICROSITE_FTP_USERNAME }}
         password: ${{ secrets.MICROSITE_FTP_PWD }}
-        local-dir: ${{ ./client-portal/ }}
+        local-dir: ./client-portal/
