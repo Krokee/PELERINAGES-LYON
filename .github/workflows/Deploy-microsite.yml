@@ -1,0 +1,22 @@
+on: push
+name: 🚀 Deploy microsite on push
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v3
+
+    - name: Use Node.js 16
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+    
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.MICROSITE_FTP_SERVER }}
+        username: ${{ secrets.MICROSITE_FTP_USERNAME }}
+        password: ${{ secrets.MICROSITE_FTP_PWD }}
+        local-dir: ./client-portal/
